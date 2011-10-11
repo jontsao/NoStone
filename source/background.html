@@ -21,6 +21,7 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
 		
 		for (command in commands) {
 			var commandString = localStorage[commands[command]];
+			if (commands[command] == "") continue;
 			if (commandString == null) { // go check yubnub!
 				//do it synchronously for now. oh well
 				var xhr = new XMLHttpRequest();
@@ -52,9 +53,10 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
 						+ params[param]
 						+ commandString.substring(paramIndex + 2);
 				if (isFirst) {
+					var firstToUrl = toUrl;
 					chrome.tabs.getSelected(null, function(tab) {
 						chrome.tabs.update(tab.id,
-							{url: toUrl});
+							{url: firstToUrl});
 					});
 					isFirst = false;
 				} else {
