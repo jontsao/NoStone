@@ -23,3 +23,5 @@ This will open the Bing image search of elephants in one tab and the Bing image 
 bim.wp elephants/giraffes
 
 will open four tabs.
+
+Also, the options page for the extension allows users to override the universal YubNub commands.
