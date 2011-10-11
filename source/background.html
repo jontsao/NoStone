@@ -20,9 +20,13 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
 		var isFirst = true;
 		
 		for (command in commands) {
+			// see if we have the command cached/overrided
 			var commandString = localStorage[commands[command]];
-			if (commands[command] == "") continue;
-			if (commandString == null) { // go check yubnub!
+			// if the command is blank, we open a blank tab
+			if (commands[command] == "") commandString = "";
+			
+			// if we don't have the command, go get it from yubnub
+			if (commandString == null) {
 				//do it synchronously for now. oh well
 				var xhr = new XMLHttpRequest();
 				xhr.open('GET',
@@ -47,11 +51,20 @@ chrome.omnibox.onInputEntered.addListener(function(text) {
 				? -1
 				: commandString.indexOf('%s');
 			for (param in params) {
-				var toUrl = (commandString == null || paramIndex == -1)
-					? chrome.extension.getURL('badCommand.html')
-					: commandString.substring(0, paramIndex)
+				var toUrl = '';
+				if (commandString == "") {
+				//if there's no command, do the blank page
+					toUrl = 'about:blank';
+				} else if (commandString == null || paramIndex == -1) {
+				//if the command is unknown or the param is bad,
+				//say it's a bad command
+					toUrl = chrome.extension.getURL('badCommand.html');
+				} else {
+				//if we have a good command and param, make the command
+					toUrl = commandString.substring(0, paramIndex)
 						+ params[param]
 						+ commandString.substring(paramIndex + 2);
+				}
 				if (isFirst) {
 					var firstToUrl = toUrl;
 					chrome.tabs.getSelected(null, function(tab) {
