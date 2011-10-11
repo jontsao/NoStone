@@ -25,3 +25,5 @@ bim.wp elephants/giraffes
 will open four tabs.
 
 Also, the options page for the extension allows users to override the universal YubNub commands.
+
+Finally, commands are cached, so when the YubNub server is slow/down, cached commands will execute quickly!
