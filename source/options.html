@@ -10,10 +10,20 @@ function load_overrides() {
 	for (command in localStorage) {
 		var pNode = document.createElement('p');
 		var textNode = document.createTextNode(
-			command + ': ' + localStorage[command]);
+			command + ': ' + localStorage[command] + ' ');
 		pNode.appendChild(textNode);
+		var linkNode = document.createElement('a');
+		linkNode.setAttribute('href', 'javascript:remove_override(\'' + command + '\')');
+		var textNode2 = document.createTextNode('Remove');
+		linkNode.appendChild(textNode2);
+		pNode.appendChild(linkNode);
 		div.appendChild(pNode);
 	}
+}
+
+function remove_override(command) {
+	localStorage.removeItem(command);
+	load_overrides();
 }
 
 function save_overrides() {
@@ -36,7 +46,7 @@ function clear_overrides() {
 </script>
 
 <body onload="load_overrides()">
-<h3>Saved overrides</h3>
+<h3>Saved overrides/cached commands</h3>
 <div id="savedOverrides"></div>
 <div>
 <input id="newOverrideCommand" type="text" />

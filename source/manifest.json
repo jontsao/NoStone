@@ -4,7 +4,9 @@
 	"description": "An omnibox extension.",
 	"omnibox": { "keyword" : "l" },
 	"icons": {
-		"16": "NoStoneLogo16.png"
+		"16": "NoStoneLogo16.png",
+		"48": "NoStoneLogo48.png",
+		"128": "NoStoneLogo128.png"
 	},
 	"permissions": [
 		"tabs",
