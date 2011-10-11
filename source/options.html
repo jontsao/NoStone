@@ -27,9 +27,6 @@ function remove_override(command) {
 }
 
 function save_overrides() {
-	if (localStorage.overrides == null) {
-		localStorage.overrides = {};
-	}
 	localStorage[document.getElementById('newOverrideCommand').value]
 		= document.getElementById('newOverrideUrl').value;
 	document.getElementById('newOverrideCommand').value = "";
