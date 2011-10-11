@@ -1,7 +1,7 @@
 {
 	"name": "NoStone",
 	"version": "1.0",
-	"description": "An omnibox extension.",
+	"description": "Extends YubNub.",
 	"omnibox": { "keyword" : "l" },
 	"icons": {
 		"16": "NoStoneLogo16.png",
