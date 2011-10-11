@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<script type="text/javascript">
+
+function load_overrides() {
+	div = document.getElementById('savedOverrides');
+	while (div.hasChildNodes()) div.removeChild(div.firstChild);
+
+	for (command in localStorage) {
+		var pNode = document.createElement('p');
+		var textNode = document.createTextNode(
+			command + ': ' + localStorage[command]);
+		pNode.appendChild(textNode);
+		div.appendChild(pNode);
+	}
+}
+
+function save_overrides() {
+	if (localStorage.overrides == null) {
+		localStorage.overrides = {};
+	}
+	localStorage[document.getElementById('newOverrideCommand').value]
+		= document.getElementById('newOverrideUrl').value;
+	document.getElementById('newOverrideCommand').value = "";
+	document.getElementById('newOverrideUrl').value = "";
+	
+	load_overrides();
+}
+
+function clear_overrides() {
+	localStorage.clear();
+	load_overrides();
+}
+
+</script>
+
+<body onload="load_overrides()">
+<h3>Saved overrides</h3>
+<div id="savedOverrides"></div>
+<div>
+<input id="newOverrideCommand" type="text" />
+<input id="newOverrideUrl" type="text" />
+<button onclick="save_overrides()">Save</button>
+</div>
+<div>
+<button onclick="clear_overrides()">Clear Overrides</button>
+</div>
+</body>

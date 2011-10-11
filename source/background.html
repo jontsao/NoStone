@@ -1,0 +1,67 @@
+<script>
+
+// receive query, initialize
+chrome.omnibox.onInputEntered.addListener(function(text) {
+	// parse the input
+	var text = text.trim();
+	var split = text.indexOf(' ');
+	if (split == -1) {	//if there's no space, bail
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.update(tab.id,
+				{url: chrome.extension.getURL('badCommand.html')});
+		});
+	} else {
+		var commandText = text.substring(0, split);
+		var paramText = text.substring(split + 1);
+		
+		var commands = commandText.split('.');
+		var params = paramText.split('/');
+		
+		var isFirst = true;
+		
+		for (command in commands) {
+			var commandString = localStorage[commands[command]];
+			if (commandString == null) { // go check yubnub!
+				//do it synchronously for now. oh well
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET',
+					'http://yubnub.org/kernel/man?args=' + commands[command],
+					false);
+				xhr.send();
+				
+				if (xhr.status == 200) {
+					var i = xhr.responseText.indexOf('<span class="muted">');
+					if (i != -1) {
+						var temp = xhr.responseText.substring(i + 20);
+						i = temp.indexOf('</span>');
+						if (i != -1) {
+							commandString = temp.substring(0, i);
+							//save commandString
+							localStorage[commands[command]] = commandString;
+						}
+					}
+				}
+			}
+			var paramIndex = (commandString == null)
+				? -1
+				: commandString.indexOf('%s');
+			for (param in params) {
+				var toUrl = (commandString == null || paramIndex == -1)
+					? chrome.extension.getURL('badCommand.html')
+					: commandString.substring(0, paramIndex)
+						+ params[param]
+						+ commandString.substring(paramIndex + 2);
+				if (isFirst) {
+					chrome.tabs.getSelected(null, function(tab) {
+						chrome.tabs.update(tab.id,
+							{url: toUrl});
+					});
+					isFirst = false;
+				} else {
+					chrome.tabs.create({url: toUrl, selected: false});
+				}
+			}
+		}
+	}
+});
+</script>

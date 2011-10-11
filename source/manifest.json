@@ -1,0 +1,15 @@
+{
+	"name": "NoStone",
+	"version": "1.0",
+	"description": "An omnibox extension.",
+	"omnibox": { "keyword" : "l" },
+	"icons": {
+		"16": "NoStoneLogo16.png"
+	},
+	"permissions": [
+		"tabs",
+		"http://yubnub.org/"
+	],
+	"options_page" : "options.html",
+	"background_page": "background.html"
+}
