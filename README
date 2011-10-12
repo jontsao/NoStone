@@ -27,3 +27,5 @@ will open four tabs.
 Also, the options page for the extension allows users to override the universal YubNub commands.
 
 Finally, commands are cached, so when the YubNub server is slow/down, cached commands will execute quickly!
+
+An AutoHotKey (http://www.autohotkey.com/) script is also included so that you can just press Ctrl+m to start a NoStone search from anywhere in the Chrome browser. (This is a workaround because Chrome hasn't released an API for global keyboard shortcuts yet.)
